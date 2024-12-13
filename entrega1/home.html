@@ -25,20 +25,20 @@
       const boardName = prompt('Enter the name of the board:');
       if (!boardName) return;
 
-      const deleteBoardButton = document.createElement('i');
-      deleteBoardButton.className = 'fa-solid fa-x text-black text-sm cursor-pointer flex justify-end';
-      deleteBoardButton.addEventListener('click', () => board.remove());
-
       const board = document.createElement('div');
-      board.className = 'board bg-[#F8F8F8] border border-[#A9A9A9] rounded-md mx-4 my-4';
+      board.className = 'board bg-[#F8F8F8] border border-[#A9A9A9] rounded-md mx-4 my-4 p-2 flex flex-col items-center';
       board.setAttribute('draggable', 'true');
+      
+      const deleteBoardButton = document.createElement('i');
+      deleteBoardButton.className = 'fa-solid fa-x text-black text-sm cursor-pointer flex self-end';
+      deleteBoardButton.addEventListener('click', () => board.remove());
 
       const header = document.createElement('h3');
       header.className = 'p-4 m-0 text-[#656262] font-bold text-lg';
       header.textContent = boardName;
 
       const addCardButton = document.createElement('button');
-      addCardButton.className = 'bg-[#F8F8F8] text-[#656262] px-4 py-2 w-56 rounded-md font-semibold border border-[#A9A9A9] mt-4 ml-4';
+      addCardButton.className = 'bg-[#F8F8F8] text-[#656262] px-4 py-2 w-[260px] h-8 rounded-md font-semibold border border-[#A9A9A9] flex items-center justify-center';
       addCardButton.textContent = 'Add Card';
       addCardButton.addEventListener('click', () => addCard(board));
 
@@ -61,14 +61,14 @@
 
       const dropzone = board.querySelector('.dropzone');
       const card = document.createElement('div');
-      card.className = 'card bg-primary p-4 shadow-md shadow-[#FD951Fcc] w-[250px] my-6 rounded-md font-semibold text-lg transition duration-400 item';
+      card.className = 'card bg-white p-4 shadow-md shadow-md w-[250px] my-6 rounded-md font-semibold text-lg transition duration-400 border-solid border';
       card.setAttribute('draggable', 'true');
 
       const status = document.createElement('div');
       status.className = 'status w-[30px] h-2 bg-gray-400 mb-4 rounded-full';
 
       const content = document.createElement('div');
-      content.className = 'content';
+      content.className = 'content text-black';
       content.textContent = taskName;
 
       const checkbox = document.createElement('input');
