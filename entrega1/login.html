@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>Laboratório</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="tailwindOutput.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
+</head>
+
+<body class="w-full h-dvh min-h-dvh flex items-center justify-center px-3">      
+	<form class="w-[604px] h-[495px] rounded-xl border-2 border-primary flex items-center justify-between flex-col py-20 px-14 max-sm:px-6">
+		<h1 class="text-5xl font-semibold text-primary">TASKER</h1>
+		
+		<div>
+			<label for="email" class="text-sm text-gray-500">Email</label>
+			<input 
+				type="email" 
+				name="email" 
+				id="email" 
+				class="w-full h-10 border-[1px] border-[#A9A9A9] bg-[#FEF7F5] rounded-xl px-3 mt-1 outline-none"
+			>
+
+			<label for="password" class="text-sm text-gray-500 mt-3">Senha</label>
+			<input 
+				type="password" 
+				name="password" 
+				id="password" 
+				class="w-full h-10 border-[1px] border-[#A9A9A9] bg-[#FEF7F5] rounded-xl px-3 mt-1 outline-none"
+			>
+		</div>
+
+		<div class='w-full flex flex-col gap-2 max-w-40'>
+			<button 
+				type="submit" 
+				class="bg-[#FF7550] text-white rounded px-3 h-10 font-semibold text-sm hover:bg-[#FFA992]"
+			>
+				LOGIN
+			</button>
+
+			<span class='text-center text-gray-500'>ou</span>
+
+			<button 
+				type='button'
+				class="bg-white text-orange-primary rounded px-3 h-10 font-semibold text-sm border-[#FF7550] border-2 hover:bg-orangev"
+			>
+				Registre-se
+			</button>
+		</div>
+	</form>
+</body>
+
+</html>
