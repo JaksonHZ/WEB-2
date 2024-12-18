@@ -13,13 +13,13 @@
 </head>
 
 <body class="w-full h-dvh min-h-dvh flex items-center justify-center px-3">
-	<form
+	<form id="register-form"
 		class="w-[604px] h-[495px] rounded-xl border-2 border-primary flex items-center justify-between flex-col py-20 px-14 max-sm:px-6 gap-2">
 		<h1 class="text-5xl font-semibold text-primary">TASKER</h1>
 
 		<div>
 			<label for="name" class="text-sm text-gray-500">Nome</label>
-			<input type="name" name="name" id="name"
+			<input type="text" name="name" id="name"
 				class="w-full h-10 border-[1px] border-[#A9A9A9] bg-[#FEF7F5] rounded-xl px-3 mt-1 outline-none">
 
 			<label for="email" class="text-sm text-gray-500">Email</label>
@@ -32,18 +32,36 @@
 		</div>
 
 		<div class='w-full flex flex-col gap-2 max-w-40'>
-			<button type="submit" class="bg-[#FF7550] text-white rounded px-3 h-10 font-semibold text-sm hover:bg-[#FFA992]">
+			<button type="submit"
+				class="bg-[#FF7550] text-white rounded px-3 h-10 font-semibold text-sm hover:bg-[#FFA992]">
 				Registrar-se
 			</button>
-
 			<span class='text-center text-gray-500'>ou</span>
-
 			<a href="login.html"
 				class="bg-white text-orange-primary rounded px-3 h-10 font-semibold text-sm border-[#FF7550] border-2 hover:bg-orange flex justify-center items-center">
 				Login
 			</a>
 		</div>
 	</form>
+
+	<script>
+		const registerForm = document.getElementById('register-form');
+		registerForm.addEventListener('submit', function (e) {
+			e.preventDefault();
+
+			const name = document.getElementById('name').value;
+			const email = document.getElementById('email').value;
+			const password = document.getElementById('password').value;
+
+			if (name && email && password) {
+				localStorage.setItem('user', JSON.stringify({ name, email, password }));
+				alert('Cadastro realizado com sucesso!');
+				window.location.href = 'login.html';
+			} else {
+				alert('Por favor, preencha todos os campos.');
+			}
+		});
+	</script>
 </body>
 
 </html>
