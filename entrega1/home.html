@@ -1,34 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="tailwindOutput.css" rel="stylesheet">
-	<script src="https://kit.fontawesome.com/1d553305aa.js" crossorigin="anonymous"></script>
-	<title>To-Do List</title>
+  <script src="https://kit.fontawesome.com/1d553305aa.js" crossorigin="anonymous"></script>
+  <title>To-Do List</title>
 </head>
-<body class="text-white w-full h-full p-12">
-	<main class="min-h-svh border border-solid border-primary rounded-lg px-4 py-2">
-		<h1 class="text-primary font-bold">MINHAS LISTAS</h1>
 
-		<div class="flex justify-center mt-8">
-			<button id="add-board" class="bg-primary text-white px-4 py-2 w-56 rounded-md font-semibold"><i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Create List</button>
-		</div>
+<body class="text-white w-full h-full p-12 max-sm:px-6">
+  <main class="min-h-svh border border-solid border-primary rounded-lg px-4 py-2">
+    <h1 class="text-primary font-bold">MINHAS LISTAS</h1>
 
-		<div class="boards flex flex-wrap mt-8"></div>
-	</main>
+    <div class="flex justify-center mt-8">
+      <button id="add-board" class="bg-primary text-white px-4 py-2 w-56 rounded-md font-semibold">
+        <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Create List
+      </button>
+    </div>
+
+    <div class="boards flex flex-wrap mt-8"></div>
+  </main>
+
+  <button id="dynamicDeleteButton"
+    class="hidden absolute hover:bg-red-600 bg-gray-400 text-white px-4 py-2 rounded-md shadow-md font-semibold z-50">
+    Delete Task
+  </button>
+
   <script>
     const boardsContainer = document.querySelector('.boards');
     const addBoardButton = document.getElementById('add-board');
+    const dynamicDeleteButton = document.getElementById('dynamicDeleteButton');
+    let targetCard = null;
 
     function createBoard() {
       const boardName = prompt('Enter the name of the board:');
       if (!boardName) return;
 
       const board = document.createElement('div');
-      board.className = 'board bg-[#F8F8F8] border border-[#A9A9A9] rounded-md mx-4 my-4 p-2 flex flex-col items-center';
+      board.className = 'board bg-[#F8F8F8] border border-[#A9A9A9] rounded-md mx-4 my-4 p-2 flex flex-col items-center w-full max-w-[282px]';
       board.setAttribute('draggable', 'true');
-      
+
       const deleteBoardButton = document.createElement('i');
       deleteBoardButton.className = 'fa-solid fa-x text-black text-sm cursor-pointer flex self-end';
       deleteBoardButton.addEventListener('click', () => board.remove());
@@ -43,7 +55,7 @@
       addCardButton.addEventListener('click', () => addCard(board));
 
       const dropzone = document.createElement('div');
-      dropzone.className = 'dropzone p-4 min-w-[282px] min-h-[200px]';
+      dropzone.className = 'dropzone p-4 min-w-[282px] min-h-[200px] max-h-[500px] overflow-y-auto';
 
       board.appendChild(deleteBoardButton);
       board.appendChild(header);
@@ -61,33 +73,47 @@
 
       const dropzone = board.querySelector('.dropzone');
       const card = document.createElement('div');
-      card.className = 'card bg-white p-4 shadow-md shadow-md w-[250px] my-6 rounded-md font-semibold text-lg transition duration-400 border-solid border';
+      card.className = 'card bg-white p-4 shadow-md w-[250px] my-6 rounded-md font-semibold text-lg transition duration-400 border-solid border';
       card.setAttribute('draggable', 'true');
 
       const status = document.createElement('div');
       status.className = 'status w-[30px] h-2 bg-gray-400 mb-4 rounded-full';
 
       const content = document.createElement('div');
-      content.className = 'content text-black';
+      content.className = 'content text-black flex justify-between';
       content.textContent = taskName;
 
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.className = 'ml-2';
 
-      const deleteCardButton = document.createElement('button');
-      deleteCardButton.className = 'bg-red-600 text-white px-2 py-1 rounded-md mt-4 ml-4';
-      deleteCardButton.textContent = 'Delete Task';
-      deleteCardButton.addEventListener('click', () => card.remove());
-
       card.appendChild(status);
+      content.appendChild(checkbox);
       card.appendChild(content);
-      card.appendChild(checkbox);
-      card.appendChild(deleteCardButton);
+
+      card.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
+        targetCard = card;
+        dynamicDeleteButton.style.left = `${event.clientX}px`;
+        dynamicDeleteButton.style.top = `${event.clientY}px`;
+        dynamicDeleteButton.classList.remove('hidden');
+      });
 
       initializeCard(card);
       dropzone.appendChild(card);
     }
+
+    document.body.addEventListener('click', () => {
+      dynamicDeleteButton.classList.add('hidden');
+    });
+
+    dynamicDeleteButton.addEventListener('click', () => {
+      if (targetCard) {
+        targetCard.remove();
+        targetCard = null;
+        dynamicDeleteButton.classList.add('hidden');
+      }
+    });
 
     addBoardButton.addEventListener('click', createBoard);
 
@@ -109,16 +135,12 @@
       dropzone.addEventListener('drop', drop);
     }
 
-    function log(message) {
-      console.log('> ' + message);
-    }
-
     function dragstart() {
       dropzones.forEach(dropzone => dropzone.classList.add('highlight'));
       this.classList.add('is-dragging');
     }
 
-    function drag() {}
+    function drag() { }
 
     function dragend() {
       dropzones.forEach(dropzone => dropzone.classList.remove('highlight'));
@@ -178,4 +200,5 @@
     const dropzones = document.querySelectorAll('.dropzone');
   </script>
 </body>
+
 </html>
