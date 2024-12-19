@@ -9,17 +9,30 @@
   <title>To-Do List</title>
 </head>
 
-<body class="text-white w-full h-full p-12 max-sm:px-6">
-  <main class="min-h-svh border border-solid border-primary rounded-lg px-4 py-2">
+<body class="text-white w-full h-full">
+  <header class="flex justify-between items-center w-full p-5 shadow-[0_2px_10px_0_rgba(169,169,169,0.15)]">
+    <h1 class="text-3xl font-bold text-primary">TASKER</h1>
+
+    <div class="flex gap-4 flex-row text-[#656262] font-semibold">
+      <a class="text-primary underline cursor-pointer">Boards</a>
+      <a class="cursor-pointer hover:text-primary">Calendar</a>
+    </div>
+
+    <a href="login.html" class="bg-white rounded px-3 h-10 text-primary font-semibold text-sm border-[#FF7550] border-2 flex justify-center items-center hover:bg-primary hover:text-white cursor-pointer">
+      <i class="fa fa-sign-out-alt mr-1" aria-hidden="true"></i>Logout
+    </a>
+  </header>
+
+  <main class="min-h-svh p-4">
     <h1 class="text-primary font-bold">MINHAS LISTAS</h1>
 
-    <div class="flex justify-center mt-8">
-      <button id="add-board" class="bg-primary text-white px-4 py-2 w-56 rounded-md font-semibold">
+    <div class="flex mt-8">
+      <button id="add-board" class="bg-primary text-white px-4 py-2 w-56 rounded-md font-semibold hover:bg-[#FFA992]">
         <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Create List
       </button>
     </div>
 
-    <div class="boards flex flex-wrap mt-8"></div>
+    <div class="boards flex flex-row mt-8 gap-3 overflow-x-auto h-[100vh]"></div>
   </main>
 
   <button id="dynamicDeleteButton"
@@ -27,10 +40,9 @@
     Delete Task
   </button>
 
-  <!-- Modal -->
   <div id="modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
     <div class="bg-white p-6 rounded-md shadow-lg w-[300px]">
-      <h2 class="text-lg font-bold mb-4">Add New Card</h2>
+      <h2 class="text-lg font-bold mb-4 text-black">Add New Card</h2>
       <label class="block text-sm font-medium text-gray-700 mb-2">Task Name:</label>
       <input id="taskNameInput" type="text" class="w-full p-2 border rounded-md mb-4 text-black">
 
@@ -68,7 +80,7 @@
       if (!boardName) return;
 
       const board = document.createElement('div');
-      board.className = 'board bg-[#F8F8F8] border border-[#A9A9A9] rounded-md mx-4 my-4 p-2 flex flex-col items-center w-full max-w-[282px]';
+      board.className = 'board bg-[#F8F8F8] border border-[#A9A9A9] rounded-md p-2 flex flex-col items-center w-full max-w-[282px] h-fit';
       board.setAttribute('draggable', 'true');
 
       const deleteBoardButton = document.createElement('i');
@@ -85,7 +97,7 @@
       addCardButton.addEventListener('click', () => openModal(board));
 
       const dropzone = document.createElement('div');
-      dropzone.className = 'dropzone p-4 min-w-[282px] min-h-[200px] max-h-[500px] overflow-y-auto';
+      dropzone.className = 'dropzone p-4 min-w-[282px] min-h-[200px] max-h-[500px] overflow-y-auto flex flex-col gap-2';
 
       board.appendChild(deleteBoardButton);
       board.appendChild(header);
@@ -126,7 +138,7 @@
     function addCard(board, taskName, statusColor) {
       const dropzone = board.querySelector('.dropzone');
       const card = document.createElement('div');
-      card.className = 'card bg-white p-4 shadow-md w-[250px] my-6 rounded-md font-semibold text-lg transition duration-400 border-solid border';
+      card.className = 'card bg-white p-4 shadow-md w-[250px] rounded-md font-semibold text-lg transition duration-400 border-solid border';
       card.setAttribute('draggable', 'true');
 
       const status = document.createElement('div');
