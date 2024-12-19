@@ -51,7 +51,7 @@
 			const storedUser = JSON.parse(localStorage.getItem('user'));
 
 			if (storedUser && storedUser.email === email && storedUser.password === password) {
-				window.location.href = 'home.html';
+				window.location.href = 'boards.html';
 			} else {
 				alert('Usuário não encontrado ou dados incorretos.');
 			}
