@@ -36,12 +36,12 @@
     <h1 class="text-primary font-bold">MINHAS LISTAS</h1>
 
     <div class="flex justify-center mt-8">
-      <button id="add-board" class="bg-primary text-white px-4 py-2 w-56 rounded-md font-semibold hover:bg-[#FFA992]">
+      <button id="add-list" class="bg-primary text-white px-4 py-2 w-56 rounded-md font-semibold hover:bg-[#FFA992]">
         <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Create List
       </button>
     </div>
 
-    <div class="boards flex flex-row mt-8 gap-3 overflow-x-auto h-[100vh]"></div>
+    <div class="lists flex flex-row mt-8 gap-3 overflow-x-auto h-[100vh]"></div>
   </main>
 
   <button id="dynamicDeleteButton"
@@ -51,7 +51,7 @@
 
   <div id="modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
     <div class="bg-white p-6 rounded-md shadow-lg w-[300px]">
-      <h2 class="text-lg font-bold mb-4 text-black">Add New Card</h2>
+      <h2 class="text-lg font-bold mb-4 text-black">Add New Task</h2>
       <label class="block text-sm font-medium text-gray-700 mb-2">Task Name:</label>
       <input id="taskNameInput" type="text" class="w-full p-2 border rounded-md mb-4 text-black">
 
@@ -74,52 +74,52 @@
   </div>
 
   <script>
-    const boardsContainer = document.querySelector('.boards');
-    const addBoardButton = document.getElementById('add-board');
+    const listsContainer = document.querySelector('.lists');
+    const addListButton = document.getElementById('add-list');
     const dynamicDeleteButton = document.getElementById('dynamicDeleteButton');
     const modal = document.getElementById('modal');
     const taskNameInput = document.getElementById('taskNameInput');
     const statusColorInput = document.getElementById('statusColorInput');
     const confirmModalButton = document.getElementById('confirmModal');
     const cancelModalButton = document.getElementById('cancelModal');
-    let targetBoard = null;
+    let targetList = null;
 
-    function createBoard() {
-      const boardName = prompt('Enter the name of the board:');
-      if (!boardName) return;
+    function createList() {
+      const listName = prompt('Enter the name of the list:');
+      if (!listName) return;
 
-      const board = document.createElement('div');
-      board.className = 'board bg-[#F8F8F8] border border-[#A9A9A9] rounded-md p-2 flex flex-col items-center w-full max-w-[282px] h-fit';
-      board.setAttribute('draggable', 'true');
+      const list = document.createElement('div');
+      list.className = 'list bg-[#F8F8F8] border border-[#A9A9A9] rounded-md p-2 flex flex-col items-center w-full max-w-[282px] h-fit';
+      list.setAttribute('draggable', 'true');
 
-      const deleteBoardButton = document.createElement('i');
-      deleteBoardButton.className = 'fa-solid fa-x text-black text-sm cursor-pointer flex self-end';
-      deleteBoardButton.addEventListener('click', () => board.remove());
+      const deleteListButton = document.createElement('i');
+      deleteListButton.className = 'fa-solid fa-x text-black text-sm cursor-pointer flex self-end';
+      deleteListButton.addEventListener('click', () => list.remove());
 
       const header = document.createElement('h3');
       header.className = 'p-4 m-0 text-[#656262] font-bold text-lg';
-      header.textContent = boardName;
+      header.textContent = listName;
 
-      const addCardButton = document.createElement('button');
-      addCardButton.className = 'bg-[#F8F8F8] text-[#656262] px-4 py-2 w-[260px] h-8 rounded-md font-semibold border border-[#A9A9A9] flex items-center justify-center';
-      addCardButton.textContent = 'Add Card';
-      addCardButton.addEventListener('click', () => openModal(board));
+      const addTaskButton = document.createElement('button');
+      addTaskButton.className = 'bg-[#F8F8F8] text-[#656262] px-4 py-2 w-[260px] h-8 rounded-md font-semibold border border-[#A9A9A9] flex items-center justify-center';
+      addTaskButton.textContent = 'Add Task';
+      addTaskButton.addEventListener('click', () => openModal(list));
 
       const dropzone = document.createElement('div');
       dropzone.className = 'dropzone py-4 px-3 min-h-[200px] max-h-[500px] overflow-y-auto flex flex-col gap-2';
 
-      board.appendChild(deleteBoardButton);
-      board.appendChild(header);
-      board.appendChild(addCardButton);
-      board.appendChild(dropzone);
+      list.appendChild(deleteListButton);
+      list.appendChild(header);
+      list.appendChild(addTaskButton);
+      list.appendChild(dropzone);
 
-      boardsContainer.appendChild(board);
-      initializeBoard(board);
+      listsContainer.appendChild(list);
+      initializeList(list);
       initializeDropzone(dropzone);
     }
 
-    function openModal(board) {
-      targetBoard = board;
+    function openModal(list) {
+      targetList = list;
       modal.classList.remove('hidden');
     }
 
@@ -138,17 +138,17 @@
         return;
       }
 
-      addCard(targetBoard, taskName, statusColor);
+      addTask(targetList, taskName, statusColor);
       closeModal();
     });
 
     cancelModalButton.addEventListener('click', closeModal);
 
-    function addCard(board, taskName, statusColor) {
-      const dropzone = board.querySelector('.dropzone');
-      const card = document.createElement('div');
-      card.className = 'card bg-white p-4 shadow-md w-[250px] rounded-md font-semibold text-lg transition duration-400 border-solid border';
-      card.setAttribute('draggable', 'true');
+    function addTask(list, taskName, statusColor) {
+      const dropzone = list.querySelector('.dropzone');
+      const task = document.createElement('div');
+      task.className = 'task bg-white p-4 shadow-md w-[250px] rounded-md font-semibold text-lg transition duration-400 border-solid border';
+      task.setAttribute('draggable', 'true');
 
       const status = document.createElement('div');
       status.className = `status w-[30px] h-2 ${statusColor} mb-4 rounded-full`;
@@ -161,20 +161,20 @@
       checkbox.type = 'checkbox';
       checkbox.className = 'ml-2';
 
-      card.appendChild(status);
+      task.appendChild(status);
       content.appendChild(checkbox);
-      card.appendChild(content);
+      task.appendChild(content);
 
-      card.addEventListener('contextmenu', (event) => {
+      task.addEventListener('contextmenu', (event) => {
         event.preventDefault();
-        targetCard = card;
+        targetTask = task;
         dynamicDeleteButton.style.left = `${event.clientX}px`;
         dynamicDeleteButton.style.top = `${event.clientY}px`;
         dynamicDeleteButton.classList.remove('hidden');
       });
 
-      initializeCard(card);
-      dropzone.appendChild(card);
+      initializeTask(task);
+      dropzone.appendChild(task);
     }
 
     document.body.addEventListener('click', () => {
@@ -182,24 +182,24 @@
     });
 
     dynamicDeleteButton.addEventListener('click', () => {
-      if (targetCard) {
-        targetCard.remove();
-        targetCard = null;
+      if (targetTask) {
+        targetTask.remove();
+        targetTask = null;
         dynamicDeleteButton.classList.add('hidden');
       }
     });
 
-    addBoardButton.addEventListener('click', createBoard);
+    addListButton.addEventListener('click', createList);
 
-    function initializeCard(card) {
-      card.addEventListener('dragstart', dragstart);
-      card.addEventListener('drag', drag);
-      card.addEventListener('dragend', dragend);
+    function initializeTask(task) {
+      task.addEventListener('dragstart', dragstart);
+      task.addEventListener('drag', drag);
+      task.addEventListener('dragend', dragend);
     }
 
-    function initializeBoard(board) {
-      board.addEventListener('dragstart', dragstartBoard);
-      board.addEventListener('dragend', dragendBoard);
+    function initializeList(list) {
+      list.addEventListener('dragstart', dragstartList);
+      list.addEventListener('dragend', dragendList);
     }
 
     function initializeDropzone(dropzone) {
@@ -221,14 +221,14 @@
       this.classList.remove('is-dragging');
     }
 
-    function dragstartBoard() {
-      boardsContainer.classList.add('highlight');
-      this.classList.add('is-dragging-board');
+    function dragstartList() {
+      listsContainer.classList.add('highlight');
+      this.classList.add('is-dragging-list');
     }
 
-    function dragendBoard() {
-      boardsContainer.classList.remove('highlight');
-      this.classList.remove('is-dragging-board');
+    function dragendList() {
+      listsContainer.classList.remove('highlight');
+      this.classList.remove('is-dragging-list');
     }
 
     function dragenter(event) {
@@ -258,14 +258,14 @@
     }
 
     function getNewPosition(dropzone, posY) {
-      const cards = dropzone.querySelectorAll('.item:not(.is-dragging)');
+      const Tasks = dropzone.querySelectorAll('.item:not(.is-dragging)');
       let result;
 
-      for (let refer_card of cards) {
-        const box = refer_card.getBoundingClientRect();
+      for (let refer_task of Tasks) {
+        const box = refer_task.getBoundingClientRect();
         const boxCenterY = box.y + box.height / 2;
 
-        if (posY >= boxCenterY) result = refer_card;
+        if (posY >= boxCenterY) result = refer_task;
       }
 
       return result;
